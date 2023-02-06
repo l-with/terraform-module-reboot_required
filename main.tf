@@ -6,7 +6,7 @@ data "system_command" "count_var_run_reboot_required" {
 }
 
 locals {
-  reboot_required_count = tonumber(trim(base64decode(data.system_command.count_var_run_reboot_required.stdout)), "\n")
+  reboot_required_count = tonumber(trim(base64decode(data.system_command.count_var_run_reboot_required.stdout), "\n"))
 }
 
 data "system_command" "reboot" {
