@@ -6,11 +6,11 @@ data "system_command" "count_var_run_reboot_required" {
 }
 
 locals {
-  reboot_required_count = data.system_command.count_var_run_reboot_required.stdout
+  reboot_required_count = tonumber(base64decode(data.system_command.count_var_run_reboot_required.stdout))
 }
 
 data "system_command" "reboot" {
-  command = "if [ \"${local.reboot_required_count}\" = \"1\" ]; then reboot; fi"
+  command = "if [ ${local.reboot_required_count} = 1 ]; then reboot; fi"
 }
 
 resource "time_sleep" "wait" {
