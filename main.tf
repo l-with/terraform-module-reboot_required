@@ -6,7 +6,7 @@ data "system_command" "count_var_run_reboot_required" {
 }
 
 data "system_command" "reboot" {
-  count   = tonumber(data.system_command.count_var_run_reboot_required.expect[0])
+  count   = tonumber(data.system_command.count_var_run_reboot_required.expect[0].stdout)
   command = "reboot"
 }
 
