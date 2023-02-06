@@ -10,7 +10,7 @@ locals {
 }
 
 data "system_command" "reboot" {
-  command = "[ ${local.reboot_required_count} == \"1\" ] && reboot"
+  command = "if [ \"${local.reboot_required_count}\" = \"1\" ]; then reboot; fi"
 }
 
 resource "time_sleep" "wait" {
