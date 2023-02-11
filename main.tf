@@ -9,16 +9,15 @@ locals {
   reboot_required_count = tonumber(trim(base64decode(data.system_command.count_var_run_reboot_required.stdout), "\n"))
 }
 
-data "system_command" "reboot" {
-  command = "if [ ${local.reboot_required_count} = 1 ]; then reboot; fi"
-}
+resource "null_resource" "reboot" {
+  provisioner "remote-exec" {
+    inline = ["if [ ${local.reboot_required_count} = 1 ]; then reboot; fi"]
 
-resource "time_sleep" "wait" {
-  depends_on      = [data.system_command.reboot]
-  create_duration = "${tonumber(local.reboot_required_count) * 42}s"
-}
-
-data "system_command" "connected" {
-  depends_on = [time_sleep.wait]
-  command    = ":"
+    connection {
+      host  = var.host
+      type  = "ssh"
+      user  = "root"
+      agent = true
+    }
+  }
 }
