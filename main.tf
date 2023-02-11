@@ -22,8 +22,19 @@ resource "null_resource" "reboot" {
   }
 }
 
+resource "time_sleep" "wait" {
+  depends_on      = [null_resource.reboot]
+  create_duration = "${tonumber(local.reboot_required_count) * 15}s"
+  connection {
+    host  = var.host
+    type  = "ssh"
+    user  = "root"
+    agent = true
+  }
+}
+
 resource "null_resource" "wait" {
-  depends_on = [null_resource.reboot]
+  depends_on = [time_sleep.wait]
   provisioner "remote-exec" {
     inline = ["echo server is ready!"]
 
