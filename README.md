@@ -29,6 +29,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [null_resource.reboot](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [null_resource.wait](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [system_command.count_var_run_reboot_required](https://registry.terraform.io/providers/neuspaces/system/latest/docs/data-sources/command) | data source |
 
 ## Inputs

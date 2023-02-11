@@ -21,3 +21,17 @@ resource "null_resource" "reboot" {
     }
   }
 }
+
+resource "null_resource" "wait" {
+  depends_on = [null_resource.reboot]
+  provisioner "remote-exec" {
+    inline = ["echo server is ready!"]
+
+    connection {
+      host  = var.host
+      type  = "ssh"
+      user  = "root"
+      agent = true
+    }
+  }
+}
